@@ -6,6 +6,7 @@ import com.forex.jExpertAdvisor.trades.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class MacdOscilator extends IStrategy {
@@ -30,7 +31,7 @@ public class MacdOscilator extends IStrategy {
         for (int i = 26; i<=candles.size()-1; i++) {
             result = result.add(getMean(candles.subList(i-26, i)).subtract(getMean(candles.subList(i-12, i))));
         }
-        return result.divide(new BigDecimal(duration));
+        return result.divide(new BigDecimal(duration), RoundingMode.HALF_UP);
 
 
     }
@@ -41,7 +42,7 @@ public class MacdOscilator extends IStrategy {
         for (Candle candle : candles) {
             result = result.add(candle.getClose());
         }
-        return result.divide(new BigDecimal(candles.size()));
+        return result.divide(new BigDecimal(candles.size()), RoundingMode.HALF_UP);
 
     }
     private BigDecimal getAvg(int duration) {
@@ -51,7 +52,7 @@ public class MacdOscilator extends IStrategy {
             BigDecimal sum = new BigDecimal(0);
             result = result.add(candle.getClose());
         }
-        return result.divide(new BigDecimal(duration));
+        return result.divide(new BigDecimal(duration), RoundingMode.HALF_UP);
 
     }
 
